@@ -180,6 +180,4 @@ exports.handler = (event, context, callback) => {
 
     checkForDelete();
 
-
-
 }
