@@ -33,7 +33,7 @@ def _send_email(fro, to, subject, content, html=False):
 
 
 def lambda_handler(event, context):
-    print(event)
+    print('Testing Lambda', event)
     message_id = event["Records"][0]["Sns"]["MessageId"]
     message = json.loads(event["Records"][0]["Sns"]["Message"])
 
@@ -52,19 +52,6 @@ def lambda_handler(event, context):
             - question_url: {message['question_url']}
         
         A new answer:
-            - id: {message['answer_id']}
-            - answer_text: {message['answer_text']}
-            - answer_url: {message['answer_url']}
-        """
-    elif message["on"] == "answer_updated":
-        subj = "An Answer Updated for Your Question"
-        cont = f"""
-        Your question:
-            - id: {message['question_id']}
-            - question_text: {message['question_text']}
-            - question_url: {message['question_url']}
-        
-        The updated answer:
             - id: {message['answer_id']}
             - answer_text: {message['answer_text']}
             - answer_url: {message['answer_url']}
