@@ -1,7 +1,7 @@
 name: Build and Deploy Lambda
 
 env:
-    ARTIFACT_NAME: csye6225-serverless-${{ github.sha }}.zip
+    ARTIFACT_NAME: lambda_function.zip
     AWS_REGION: us-east-1
 
 on:
