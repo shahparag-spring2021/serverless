@@ -36,4 +36,4 @@ jobs:
         run: |
           aws lambda update-function-code \
           --function-name serverless \
-          --zip-file fileb://serverless_artifact/${{ env.ARTIFACT_NAME }}
+          --s3-bucket ${{ secrets.S3_SERVERLESS_BUCKET }} \
