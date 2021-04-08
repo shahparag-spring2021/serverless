@@ -99,17 +99,11 @@ def lambda_handler(event, context):
 
 '''
 
-ses_client = boto3.client('ses')
-db_resource = boto3.resource('dynamodb')
-# table = db_resource.Table('message_notification')
-table = db_resource.Table(DYNANODB_TABLE)
-
 
 def lambda_handler(event, context):
 
     ses_client = boto3.client('ses')
     db_resource = boto3.resource('dynamodb')
-    # table = db_resource.Table('message_notification')
     table = db_resource.Table(DYNANODB_TABLE)
     print('Table - ', table)
 
@@ -129,6 +123,7 @@ def lambda_handler(event, context):
 
     if 'created' in message:
         ''' You created a book '''
+
         print('Book created email test')
         subj = 'Your book has been created'
 
@@ -139,80 +134,26 @@ def lambda_handler(event, context):
             message,
         )
 
-        # ses_response = ses_client.send_email(
-        #     Source='parag@paragshah.me',
-        #     Destination={
-        #         'ToAddresses': [
-        #             user_email
-        #         ]
-        #     },
-        #     Message={
-        #         'Subject': {
-        #             'Data': 'Your book has been created'
-        #         },
-        #         'Body': {
-        #             'Text': {
-        #                 'Data': message
-
-        #             }
-        #         }
-        #     }
-        # )
-        # insert_record(message)
-        # return "notify the user successfully"
-
-    # elif 'deleted' in message:
-    #     ''' You deleted a book '''
-    #     print('elif test')
-
-    # status = get_record(message)
-    # print(status)
-    # if not status:
-    #     print('testing if not status')
-    #     ses_response = ses_client.send_email(
-    #         Source='parag@paragshah.me',
-    #         Destination={
-    #             'ToAddresses': [
-    #                 user_email
-    #             ]
-    #         },
-    #         Message={
-    #             'Subject': {
-    #                 'Data': 'Your book has been changed'
-    #             },
-    #             'Body': {
-    #                 'Text': {
-    #                     'Data': message
-
-    #                 }
-    #             }
-    #         }
-    #     )
-    #     insert_record(message)
-    #     return "notify the user successfully"
-
-    # else:
-    #     return "duplicate message"
-
-
-def insert_record(message_content):
-    response = table.put_item(
-        Item={
-            "message": message_content
-        }
-    )
-    return response["ResponseMetadata"]["HTTPStatusCode"]
-
-
-def get_record(message_content):
-    try:
-        response = table.get_item(
-            Key={
-                "message": message_content
+        table.put_item(
+            Item={
+                "id": message_id,
+                "message": message
             }
         )
-    except:
-        if 'Item' in response:
-            return "There is an item found "
-        else:
-            return ""
+        
+        return {"statusCode": 200, "body": json.dumps("Hello from Lambda! Notification sent for book creation")}
+
+    elif 'deleted' in message:
+        ''' You deleted a book '''
+
+        print('Book deleted email test')
+        subj = 'Your book has been deleted'
+
+        _send_email(
+            "parag@paragshah.me",
+            user_email,
+            subj,
+            message,
+        )
+
+        return "Notification sent for book deletion"
