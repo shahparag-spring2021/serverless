@@ -17,7 +17,7 @@ jobs:
 
       - name: Build deployment artifact
         run: |
-          mkdir codedeploy_artifact
+          mkdir serverless_artifact
           zip -r ${{ env.ARTIFACT_NAME }} lambda_function.py
           mv ${{ env.ARTIFACT_NAME }} serverless_artifact/
         
