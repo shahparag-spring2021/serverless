@@ -129,18 +129,9 @@ def lambda_handler(event, context):
         print('if test')
         return {"statusCode": 400, "body": json.dumps("Message has already been sent.")}
 
-    if message["on"] == "question_answered":
-        ''' You created a book. Book id: 27c41493-7a3c-4e22-9ad3-231cba668c8e '''
-        print(message)
-        print('Email test')
-
-    elif message["on"] == "answer_deleted":
-        print('elif test')
-
-    status = get_record(message)
-    print(status)
-    if not status:
-        print('testing if not status')
+    if 'created' in message:
+        ''' You created a book '''
+        print('Book created email test')
         ses_response = ses_client.send_email(
             Source='parag@paragshah.me',
             Destination={
@@ -150,7 +141,7 @@ def lambda_handler(event, context):
             },
             Message={
                 'Subject': {
-                    'Data': 'Your book has been changed'
+                    'Data': 'Your book has been created'
                 },
                 'Body': {
                     'Text': {
@@ -163,8 +154,38 @@ def lambda_handler(event, context):
         insert_record(message)
         return "notify the user successfully"
 
-    else:
-        return "duplicate message"
+    elif 'deleted' in message:
+        ''' You deleted a book '''
+        print('elif test')
+
+    # status = get_record(message)
+    # print(status)
+    # if not status:
+    #     print('testing if not status')
+    #     ses_response = ses_client.send_email(
+    #         Source='parag@paragshah.me',
+    #         Destination={
+    #             'ToAddresses': [
+    #                 user_email
+    #             ]
+    #         },
+    #         Message={
+    #             'Subject': {
+    #                 'Data': 'Your book has been changed'
+    #             },
+    #             'Body': {
+    #                 'Text': {
+    #                     'Data': message
+
+    #                 }
+    #             }
+    #         }
+    #     )
+    #     insert_record(message)
+    #     return "notify the user successfully"
+
+    # else:
+    #     return "duplicate message"
 
 
 def insert_record(message_content):
