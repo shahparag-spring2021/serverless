@@ -108,9 +108,9 @@ def lambda_handler(event, context):
 
     print('Testing Lambda', event)
     event = json.loads(event["Records"][0]['Sns']['Message'])
-    recipient = event['recipient']
+    user_email = event['user_email']
     message = event['message']
-    print(recipient, message)
+    print(user_email, message)
 
     status = get_record(message)
     print(status)
@@ -120,7 +120,7 @@ def lambda_handler(event, context):
             Source='parag@paragshah.me',
             Destination={
                 'ToAddresses': [
-                    recipient
+                    user_email
                 ]
             },
             Message={
@@ -136,7 +136,7 @@ def lambda_handler(event, context):
             }
         )
         insert_record(message)
-        return "notify the user succesfully"
+        return "notify the user sreuccesfully"
     else:
         return "duplicate message"
 
