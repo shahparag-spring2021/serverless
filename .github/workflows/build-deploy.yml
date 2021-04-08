@@ -37,3 +37,4 @@ jobs:
           aws lambda update-function-code \
           --function-name serverless \
           --s3-bucket ${{ secrets.S3_SERVERLESS_BUCKET }} \
+          --s3-key ${{ env.ARTIFACT_NAME }}
