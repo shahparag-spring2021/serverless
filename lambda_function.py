@@ -124,11 +124,18 @@ def lambda_handler(event, context):
 
     
     resp = table.query(KeyConditionExpression=Key("id").eq(message_id))
+    print(resp["Count"], resp)
     if resp["Count"] != 0:
         print('if test')
         return {"statusCode": 400, "body": json.dumps("Message has already been sent.")}
-    else:
-        print('else test')
+
+    if message["on"] == "question_answered":
+        ''' You created a book. Book id: 27c41493-7a3c-4e22-9ad3-231cba668c8e '''
+        print(message)
+        print('Email test')
+
+    elif message["on"] == "answer_deleted":
+        print('elif test')
 
     status = get_record(message)
     print(status)
@@ -170,12 +177,14 @@ def insert_record(message_content):
 
 
 def get_record(message_content):
-    response = table.get_item(
-        Key={
-            "message": message_content
-        }
-    )
-    if 'Item' in response:
-        return "There is an item found "
-    else:
-        return ""
+    try:
+        response = table.get_item(
+            Key={
+                "message": message_content
+            }
+        )
+    except:
+        if 'Item' in response:
+            return "There is an item found "
+        else:
+            return ""
