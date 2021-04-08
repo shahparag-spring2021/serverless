@@ -113,7 +113,7 @@ def lambda_handler(event, context):
     db_resource = boto3.resource('dynamodb')
     # table = db_resource.Table('message_notification')
     table = db_resource.Table(DYNANODB_TABLE)
-    print(table)
+    print('Table - ', table)
 
     print('Testing Lambda', event)
     event = json.loads(event["Records"][0]['Sns']['Message'])
