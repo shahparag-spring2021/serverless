@@ -104,7 +104,7 @@ def lambda_handler(event, context):
 ses_client = boto3.client('ses')
 db_resource = boto3.resource('dynamodb')
 # table = db_resource.Table('message_notification')
-table = dynamodb.Table(DYNANODB_TABLE)
+table = db_resource.Table(DYNANODB_TABLE)
 
 
 def lambda_handler(event, context):
