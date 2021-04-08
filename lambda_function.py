@@ -121,6 +121,14 @@ def lambda_handler(event, context):
     message = event['message']
     print(user_email, message)
 
+    message_id = event["Records"][0]["Sns"]["MessageId"]
+    resp = table.query(KeyConditionExpression=Key("id").eq(message_id))
+    if resp["Count"] != 0:
+        print('if test')
+        return {"statusCode": 400, "body": json.dumps("Message has already been sent.")}
+    else:
+        print('else test')
+
     status = get_record(message)
     print(status)
     if not status:
