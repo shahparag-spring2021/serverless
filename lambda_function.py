@@ -78,9 +78,7 @@ def lambda_handler(event, context):
         subj,
         cont,
     )
-    # for i in event:
-    #     print(i)
-    # TODO implement
+    
     table.put_item(
         Item={
             "id": message_id,
@@ -132,31 +130,40 @@ def lambda_handler(event, context):
     if 'created' in message:
         ''' You created a book '''
         print('Book created email test')
-        ses_response = ses_client.send_email(
-            Source='parag@paragshah.me',
-            Destination={
-                'ToAddresses': [
-                    user_email
-                ]
-            },
-            Message={
-                'Subject': {
-                    'Data': 'Your book has been created'
-                },
-                'Body': {
-                    'Text': {
-                        'Data': message
+        subj = 'Your book has been created'
 
-                    }
-                }
-            }
+        _send_email(
+            "parag@paragshah.me",
+            user_email,
+            subj,
+            message,
         )
-        insert_record(message)
-        return "notify the user successfully"
 
-    elif 'deleted' in message:
-        ''' You deleted a book '''
-        print('elif test')
+        # ses_response = ses_client.send_email(
+        #     Source='parag@paragshah.me',
+        #     Destination={
+        #         'ToAddresses': [
+        #             user_email
+        #         ]
+        #     },
+        #     Message={
+        #         'Subject': {
+        #             'Data': 'Your book has been created'
+        #         },
+        #         'Body': {
+        #             'Text': {
+        #                 'Data': message
+
+        #             }
+        #         }
+        #     }
+        # )
+        # insert_record(message)
+        # return "notify the user successfully"
+
+    # elif 'deleted' in message:
+    #     ''' You deleted a book '''
+    #     print('elif test')
 
     # status = get_record(message)
     # print(status)
