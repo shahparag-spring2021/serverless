@@ -116,12 +116,13 @@ def lambda_handler(event, context):
     print('Table - ', table)
 
     print('Testing Lambda', event)
+    message_id = event["Records"][0]["Sns"]["MessageId"]
     event = json.loads(event["Records"][0]['Sns']['Message'])
     user_email = event['user_email']
     message = event['message']
     print(user_email, message)
 
-    message_id = event["Records"][0]["Sns"]["MessageId"]
+    
     resp = table.query(KeyConditionExpression=Key("id").eq(message_id))
     if resp["Count"] != 0:
         print('if test')
