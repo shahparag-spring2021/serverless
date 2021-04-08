@@ -140,7 +140,7 @@ def lambda_handler(event, context):
                 "message": message
             }
         )
-        
+
         return {"statusCode": 200, "body": json.dumps("Hello from Lambda! Notification sent for book creation")}
 
     elif 'deleted' in message:
@@ -156,4 +156,4 @@ def lambda_handler(event, context):
             message,
         )
 
-        return "Notification sent for book deletion"
+        return {"statusCode": 200, "body": json.dumps("Hello from Lambda! Notification sent for book deletion")}
