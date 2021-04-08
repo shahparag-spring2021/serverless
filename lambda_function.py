@@ -109,6 +109,12 @@ table = db_resource.Table(DYNANODB_TABLE)
 
 def lambda_handler(event, context):
 
+    ses_client = boto3.client('ses')
+    db_resource = boto3.resource('dynamodb')
+    # table = db_resource.Table('message_notification')
+    table = db_resource.Table(DYNANODB_TABLE)
+    print(table)
+
     print('Testing Lambda', event)
     event = json.loads(event["Records"][0]['Sns']['Message'])
     user_email = event['user_email']
