@@ -35,6 +35,6 @@ jobs:
       - name: Update lambda function
         run: |
           aws lambda update-function-code \
-          --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
-          --s3-bucket ${{ secrets.S3_CODEDEPLOY_BUCKET }} \
+          --function-name serverless \
+          --s3-bucket ${{ secrets.S3_SERVERLESS_BUCKET }} \
           --s3-key ${{ env.ARTIFACT_NAME }}
